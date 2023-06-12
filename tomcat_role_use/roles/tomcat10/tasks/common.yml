@@ -48,7 +48,7 @@
     src: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
     dest: "{{ home_dir }}/latest"
     state: link
-    notify:
+  notify:
       - Change the directory ownership
       - Add execute permissions for shell scripts
   tags:
@@ -65,7 +65,7 @@
   ansible.builtin.template:
     src: "tomcat.service_{{ ansible_facts['distribution'] }}.j2"
     dest: /etc/systemd/system/tomcat.service
-    notify: daemon reload
+  notify: daemon reload
   tags:
     - tomcat
     - config
@@ -85,7 +85,7 @@
     dest: "{{ home_dir }}/latest/conf/tomcat-users.xml"
     owner: "{{ user }}"
     group: "{{ group }}"
-    notify: restart tomcat
+  notify: restart tomcat
   tags:
     - tomcat
     - config
@@ -96,7 +96,7 @@
     dest: "{{ home_dir }}/latest/webapps/manager/META-INF/context.xml"
     owner: "{{ user }}"
     group: "{{ group }}"
-    notify: restart tomcat
+  notify: restart tomcat
   tags:
     - tomcat
     - config
@@ -107,7 +107,7 @@
     dest: "{{ home_dir }}/latest/webapps/host-manager/META-INF/context.xml"
     owner: "{{ user }}"
     group: "{{ group }}"
-    notify: restart tomcat
+  notify: restart tomcat
   tags:
     - tomcat
     - config
