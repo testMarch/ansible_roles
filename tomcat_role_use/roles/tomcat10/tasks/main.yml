@@ -6,7 +6,7 @@
 
 - name: Run Centos specific tasks
   ansible.builtin.include_tasks:
-    file: redhat.yml
+    file: centos.yml
   when: ansible_facts['distribution'] == "CentOS"
 
 - name: Run Ubuntu specific tasks
