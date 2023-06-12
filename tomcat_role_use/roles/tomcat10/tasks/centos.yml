@@ -1,6 +1,6 @@
 ---
 - name: Install java 11
   ansible.builtin.apt:
-    name: "{{ java_package_centos: }}"
+    name: "{{ java_package_centos }}"
     update_cache: yes  
     state: present
