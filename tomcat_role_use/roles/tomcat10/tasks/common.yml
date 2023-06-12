@@ -38,7 +38,7 @@
     src: "{{ download_dir}}"
     dest: "{{ home_dir }}"
     remote_src: yes
-    when: not tomcat_info.stat.exists
+  when: not tomcat_info.stat.exists
   tags:
     - tomcat
     - config
