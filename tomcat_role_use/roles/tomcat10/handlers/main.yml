@@ -1,0 +1,21 @@
+---
+- name: daemon reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Change the directory ownership
+  ansible.builtin.file:
+    path: "{{ home_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Add execute permissions for shell scripts
+  ansible.builtin.shell:
+      cmd: "chmod +x {{ home_dir }}/latest/bin/*.sh"
+
+- name: restart tomcat
+  ansible.builtin.systemd:
+    name: tomcat
+    state: restarted

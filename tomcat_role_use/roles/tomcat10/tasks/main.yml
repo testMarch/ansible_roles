@@ -1,0 +1,19 @@
+---
+- name: check if the playbook is being executed on supported os
+  ansible.builtin.fail:
+    msg: "This playbook is designed to work on ubuntu and centos only"
+  when: ansible_facts['distribution'] != "Ubuntu" and ansible_facts['distribution'] != "CentOS"
+
+- name: Run Centos specific tasks
+  ansible.builtin.include_tasks:
+    file: redhat.yml
+  when: ansible_facts['distribution'] == "CentOS"
+
+- name: Run Ubuntu specific tasks
+  ansible.builtin.include_tasks:
+    file: ubuntu.yml
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Run common tasks
+  ansible.builtin.include_tasks:
+    file: common.yml
