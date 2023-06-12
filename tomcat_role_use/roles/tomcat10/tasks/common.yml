@@ -2,9 +2,9 @@
   ansible.builtin.group:
     name: "{{ group }}"
     state: present
-    tags:
-      - user
-      - config
+  tags:
+    - user
+    - config
 
 - name: Create User
   ansible.builtin.user:
@@ -13,25 +13,25 @@
     home: "{{ home_dir }}"
     shell: "{{ shell }}"
     group: "{{ group }}"
-    tags:
-      - user
-      - config
+  tags:
+    - user
+    - config
 
 - name: Download tomcat
   ansible.builtin.get_url:
     url: "{{ tomcat_url }}"
     dest: "{{ download_dir}}"
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
     
 - name: Find if the tomcat is already extracted
   ansible.builtin.stat:
     path: "{{ home_dir }}/apache-tomcat-{{ tomcat_version }}"
     register: tomcat_info
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
 
 - name: Extract tomcat
   ansible.builtin.unarchive:
@@ -39,9 +39,9 @@
     dest: "{{ home_dir }}"
     remote_src: yes
     when: not tomcat_info.stat.exists
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
 
 - name: Create a symbolic link(soft link--point to the original file)
   ansible.builtin.file:
@@ -51,9 +51,9 @@
     notify:
       - Change the directory ownership
       - Add execute permissions for shell scripts
-    tags:
-      - tomcat
-      - config     
+  tags:
+    - tomcat
+    - config     
 
 - name: Flush Handlers 
   meta: flush_handlers
@@ -66,18 +66,18 @@
     src: "tomcat.service_{{ ansible_facts['distribution'] }}.j2"
     dest: /etc/systemd/system/tomcat.service
     notify: daemon reload
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
 
 - name: Enable tomcat
   ansible.builtin.systemd:
     name: tomcat
     enabled: true
     state: started
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
 
 - name: Configure the tomcat users xml
   ansible.builtin.template:
@@ -86,9 +86,9 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     notify: restart tomcat
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
 
 - name: Configure the tomcat context xml for manager app
   ansible.builtin.template:
@@ -97,9 +97,9 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     notify: restart tomcat
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
 
 - name: Configure the tomcat context xml for host manager app
   ansible.builtin.template:
@@ -108,6 +108,6 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     notify: restart tomcat
-    tags:
-      - tomcat
-      - config
+  tags:
+    - tomcat
+    - config
