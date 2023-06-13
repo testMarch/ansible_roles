@@ -1,0 +1,21 @@
+---
+- name: restart apache
+  ansible.builtin.systemd:
+    name: "{{ package_name }}"
+    state: restarted
+
+- name: Apache is installed
+  ansible.builtin.debug:
+    msg: "Apache is installed using package {{ package_name }} "
+    
+- name: Apache is enabled
+  ansible.builtin.debug:
+    msg: "Apache is enabled and stated"
+    
+- name: install php packages
+  ansible.builtin.debug:
+    msg: "PHP packages are installed {{ php_packages }} "
+   
+- name: info php
+  ansible.builtin.debug:
+    msg: "Created info.php at {{ info_page }} "
